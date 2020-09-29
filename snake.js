@@ -9,13 +9,20 @@ let keyPressed;
 let snakeCentre;
 let started = false;
 
-let fruitX = Math.floor(Math.random() * (canvas.width - 2 * radius) + 2 * radius);
-let fruitY = Math.floor(Math.random() * (canvas.height - 2 * radius) + 2 * radius);
+let fruitX;
+let fruitY;
 
-let score = 0
+let score;
+let snake;
 
-// starts snake in centre
-const snake = [[canvas.width / 2, canvas.height / 2]];
+function startGame() {
+    score = 0;
+    snake = [[canvas.width / 2, canvas.height / 2]];
+    fruitX = Math.floor(Math.random() * (canvas.width - 2 * radius) + 2 * radius);
+    fruitY = Math.floor(Math.random() * (canvas.height - 2 * radius) + 2 * radius);
+    started = true;
+    draw();
+}
 
 document.addEventListener("keydown", keyDownHandler, false);
 
@@ -33,28 +40,26 @@ function keyDownHandler(e) {
         keyPressed = 'left';
     }
     else if (e.keyCode === 32 && started === false) {
-        started = true
-        draw();
+        startGame();
     }
 }
 
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.textAlign = "left";
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "royalblue";
     ctx.fillText("Score: " + score, 8, 20);
 }
 
 function drawFruit() {
     ctx.beginPath();
     ctx.arc(fruitX, fruitY, radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#‎FF0000";
+    ctx.fillStyle = "red";
     ctx.fill();
-    ctx.closePath();
 }
 
 function drawSnake() {
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "lightgreen";
     for (part of snake) {
         ctx.fillRect(part[0], part[1], width, height);
     }
@@ -68,15 +73,19 @@ function draw() {
 
 
     if (snake[0][1] < 0 || snake[0][1] > canvas.height - height || snake[0][0] < 0 || snake[0][0] > canvas.width - width) {
-        alert("GAME OVER");
-        document.location.reload();
+        gameOver();
+        return;
+        //alert("GAME OVER");
+        //document.location.reload();
     }
     else {
         // end game is collides with self
         for (part of snake.slice(1)) {
             if (part[0] === snake[0][0] && part[1] === snake[0][1]) {
-                alert("GAME OVER");
-                document.location.reload();
+                gameOver();
+                return;
+                //alert("GAME OVER");
+                //document.location.reload();
             }
         }
 
@@ -99,16 +108,16 @@ function draw() {
 
         switch (keyPressed) {
             case 'right':
-                score > 1 ? snake[0][0] += score : snake[0][0] += 1;
+                score > 1 ? snake[0][0] += score ** (1 / 2) : snake[0][0] += 1;
                 break;
             case 'left':
-                score > 1 ? snake[0][0] -= score : snake[0][0] -= 1;
+                score > 1 ? snake[0][0] -= score ** (1 / 2) : snake[0][0] -= 1;
                 break;
             case 'up':
-                score > 1 ? snake[0][1] -= score : snake[0][1] -= 1;
+                score > 1 ? snake[0][1] -= score ** (1 / 2) : snake[0][1] -= 1;
                 break;
             case 'down':
-                score > 1 ? snake[0][1] += score : snake[0][1] += 1;
+                score > 1 ? snake[0][1] += score ** (1 / 2) : snake[0][1] += 1;
                 break;
             default:
                 keyPressed = 'right';
@@ -120,14 +129,24 @@ function draw() {
 function menu() {
     ctx.font = "16px Arial";
     ctx.textAlign = "center";
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "royalblue";
     ctx.fillText("SNAKE.JS", canvas.width / 2, canvas.height / 3);
 
     ctx.fillText("Press SPACEBAR to start", canvas.width / 2, 2 * canvas.height / 3);
 
+}
 
+function gameOver() {
+    started = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawScore();
 
-    //draw();
+    ctx.font = "16px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "royalblue";
+    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 3);
+
+    ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
 
 }
 
