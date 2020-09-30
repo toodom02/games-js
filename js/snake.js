@@ -74,7 +74,6 @@ function draw() {
 
     if (snake[0][1] < 0 || snake[0][1] > canvas.height - height || snake[0][0] < 0 || snake[0][0] > canvas.width - width) {
         gameOver();
-        return;
         //alert("GAME OVER");
         //document.location.reload();
     }
@@ -83,7 +82,6 @@ function draw() {
         for (part of snake.slice(1)) {
             if (part[0] === snake[0][0] && part[1] === snake[0][1]) {
                 gameOver();
-                return;
                 //alert("GAME OVER");
                 //document.location.reload();
             }

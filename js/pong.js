@@ -2,27 +2,39 @@ const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
 const ballRadius = 10;
-let x = canvas.width / 2;
-let y = canvas.height / 2;
-let dx = 2;
-let dy = -2;
-let speed = 1;
+let x;
+let y;
+let dx;
+let dy;
 
 const paddleHeight = 75;
 const paddleWidth = 10;
 const paddleX = canvas.width - paddleWidth - 10;
 const paddle2X = paddleWidth + 10 - paddleWidth;
-let paddleY = paddle2Y = (canvas.height - paddleHeight) / 2;
+let paddleY;
+let paddle2Y;
 
 let upPressed = false;
 let downPressed = false;
 let wPressed = false;
 let sPressed = false;
 
-let score1 = 0;
-let score2 = 0;
+let score1;
+let score2;
 
 let started = false;
+
+function startGame() {
+    started = true;
+    score1 = 0;
+    score2 = 0;
+    paddleY = paddle2Y = (canvas.height - paddleHeight) / 2;
+    x = canvas.width / 2;
+    y = canvas.height / 2;
+    dx = 2;
+    dy = -2;
+    draw();
+}
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -43,8 +55,10 @@ function keyDownHandler(e) {
             break;
     }
     if (e.keyCode === 32 && started === false) {
-        started = true;
-        draw();
+        startGame();
+    }
+    else if (e.keyCode === 27 && started === true) {
+        started = false;
     }
 }
 function keyUpHandler(e) {
@@ -90,54 +104,61 @@ function drawScore() {
 }
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
-    drawPaddle();
+
     drawScore();
 
-    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+    if (started === false) {
+        ctx.font = "16px Arial";
+        ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
+    }
+    else {
+        drawBall();
+        drawPaddle();
 
-        if (x + dx > canvas.width - ballRadius) {
-            score1++;
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+
+            if (x + dx > canvas.width - ballRadius) {
+                score1++;
+            }
+            else if (x + dx < ballRadius) {
+                score2++;
+            }
+
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            dx < 0 ? dx = 2 : dx = -2;
+            dy = -2;
+            paddleY = (canvas.height - paddleHeight) / 2;
+            paddle2Y = (canvas.height - paddleHeight) / 2;
+
         }
-        else if (x + dx < ballRadius) {
-            score2++;
+
+        else if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+            dy = -dy;
         }
 
-        x = canvas.width / 2;
-        y = canvas.height / 2;
-        speed = 1;
-        dx < 0 ? dx = 2 : dx = -2;
-        dy = -2;
-        paddleY = (canvas.height - paddleHeight) / 2;
-        paddle2Y = (canvas.height - paddleHeight) / 2;
+        else if (x + dx >= paddleX && y > paddleY && y < paddleY + paddleHeight || x + dx <= paddle2X + paddleWidth && y > paddle2Y && y < paddle2Y + paddleHeight) {
+            dx = -dx;
+            dx < 0 ? dx -= 1 : dx += 1;
+        }
 
-    }
+        if (downPressed && paddleY < canvas.height - paddleHeight) {
+            paddleY += 7;
+        }
+        else if (upPressed && paddleY > 0) {
+            paddleY -= 7;
+        }
+        if (sPressed && paddle2Y < canvas.height - paddleHeight) {
+            paddle2Y += 7;
+        }
+        else if (wPressed && paddle2Y > 0) {
+            paddle2Y -= 7;
+        }
 
-    else if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
-        dy = -dy;
+        x += dx;
+        y += dy;
+        requestAnimationFrame(draw);
     }
-
-    else if (x + dx >= paddleX && y > paddleY && y < paddleY + paddleHeight || x + dx <= paddle2X + paddleWidth && y > paddle2Y && y < paddle2Y + paddleHeight) {
-        dx = -dx;
-        dx < 0 ? dx -= 1 : dx += 1;
-    }
-
-    if (downPressed && paddleY < canvas.height - paddleHeight) {
-        paddleY += 7;
-    }
-    else if (upPressed && paddleY > 0) {
-        paddleY -= 7;
-    }
-    if (sPressed && paddle2Y < canvas.height - paddleHeight) {
-        paddle2Y += 7;
-    }
-    else if (wPressed && paddle2Y > 0) {
-        paddle2Y -= 7;
-    }
-
-    x += dx;
-    y += dy;
-    requestAnimationFrame(draw);
 }
 
 function menu() {

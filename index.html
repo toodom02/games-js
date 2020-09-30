@@ -3,6 +3,18 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 
     <link href="static/main.css" rel="stylesheet" type="text/css">
 
@@ -10,17 +22,64 @@
 
 </head>
 
+
+
 <body>
 
-    <h1>GAMES-JS</h1>
-    <ul>
-        <li>
-            <a href="./templates/snake.html">snake-js</a>
-        </li>
-        <li>
-            <a href="./templates/pong.html">pong-js</a>
-        </li>
-    </ul>
+    <div class="topnav">
+        <div class="content">
+            <a href="./">GAME-JS</a>
+        </div>
+    </div>
+
+    <div class="parallax">
+        <div class="hero-text">
+            <h1>GAMES-JS</h1>
+            <p>Scroll down to play!</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <section class="hero">
+
+            <div class="card">
+                <a href="./templates/snake.html" style="text-decoration:none;">
+                    <img src="./static/snake.png" class="card-img">
+                    <div class="container">
+                        <h4><b>Snake</b></h4>
+                        <p>Play now!</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="./templates/spaceInvaders.html" style="text-decoration:none;">
+                    <img src="./static/spaceInvaders.png" class="card-img">
+                    <div class="container">
+                        <h4><b>Space Invaders</b></h4>
+                        <p>Play now!</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="./templates/pong.html" style="text-decoration:none;">
+                    <img src="./static/pong.png" class="card-img">
+                    <div class="container">
+                        <h4><b>Pong</b></h4>
+                        <p>Play now!</p>
+                    </div>
+                </a>
+            </div>
+
+        </section>
+
+
+        <br>
+        <br>
+    </div>
+
+
 
 
 </body>
