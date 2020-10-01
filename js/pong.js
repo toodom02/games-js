@@ -21,6 +21,7 @@ let sPressed = false;
 
 let score1;
 let score2;
+let endText;
 
 let started = false;
 
@@ -108,8 +109,19 @@ function draw() {
     drawScore();
 
     if (started === false) {
+        if (score1 > score2) {
+            endText = "Player 1 WON";
+        }
+        else if (score2 > score1) {
+            endText = "Player 2 WON";
+        }
+        else {
+            endText = "DRAW";
+        }
         ctx.font = "16px Arial";
+        ctx.fillText(endText, canvas.width / 2, canvas.height / 3);
         ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
+        return;
     }
     else {
         drawBall();
@@ -165,7 +177,6 @@ function menu() {
     ctx.font = "16px Arial";
     ctx.textAlign = "center";
     ctx.fillText("PONG.JS", canvas.width / 2, canvas.height / 3);
-
     ctx.fillText("Press SPACEBAR to start", canvas.width / 2, 2 * canvas.height / 3);
 
 }

@@ -6,20 +6,37 @@ body {
     font-family: Sans-Serif;
 }
 
-.content {
-    margin: 0 10% 0 10%;
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 100%;
+}
+@media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
 }
 
 canvas {
     background: #eee;
     display: block;
-    margin: 0 auto;
-    height: 50vh;
-    width: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);          
+    margin: auto;
+    margin-top: 100px;
+    width: 75vh;
+    height: auto;
+    max-width: 100%;
 }
 
 

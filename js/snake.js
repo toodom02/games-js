@@ -18,8 +18,8 @@ let snake;
 function startGame() {
     score = 0;
     snake = [[canvas.width / 2, canvas.height / 2]];
-    fruitX = Math.floor(Math.random() * (canvas.width - 2 * radius) + 2 * radius);
-    fruitY = Math.floor(Math.random() * (canvas.height - 2 * radius) + 2 * radius);
+    fruitX = Math.floor(Math.random() * (canvas.width - 4 * radius) + 4 * radius);
+    fruitY = Math.floor(Math.random() * (canvas.height - 4 * radius) + 4 * radius);
     started = true;
     draw();
 }
@@ -27,16 +27,16 @@ function startGame() {
 document.addEventListener("keydown", keyDownHandler, false);
 
 function keyDownHandler(e) {
-    if (e.keyCode === 40 && keyPressed != 'up') {
+    if ((e.keyCode === 40 || e.keyCode === 83) && keyPressed != 'up') {
         keyPressed = 'down';
     }
-    else if (e.keyCode === 39 && keyPressed != 'left') {
+    else if ((e.keyCode === 39 || e.keyCode === 68) && keyPressed != 'left') {
         keyPressed = 'right';
     }
-    else if (e.keyCode === 38 && keyPressed != 'down') {
+    else if ((e.keyCode === 38 || e.keyCode === 87) && keyPressed != 'down') {
         keyPressed = 'up';
     }
-    else if (e.keyCode === 37 && keyPressed != 'right') {
+    else if ((e.keyCode === 37 || e.keyCode === 65) && keyPressed != 'right') {
         keyPressed = 'left';
     }
     else if (e.keyCode === 32 && started === false) {
@@ -74,16 +74,14 @@ function draw() {
 
     if (snake[0][1] < 0 || snake[0][1] > canvas.height - height || snake[0][0] < 0 || snake[0][0] > canvas.width - width) {
         gameOver();
-        //alert("GAME OVER");
-        //document.location.reload();
+        return;
     }
     else {
         // end game is collides with self
         for (part of snake.slice(1)) {
             if (part[0] === snake[0][0] && part[1] === snake[0][1]) {
                 gameOver();
-                //alert("GAME OVER");
-                //document.location.reload();
+                return;
             }
         }
 
@@ -98,8 +96,8 @@ function draw() {
         // checks if apple touched
         if (Math.abs(snakeCentre[0] - fruitX) <= width / 2 + radius && Math.abs(snakeCentre[1] - fruitY) <= height / 2 + radius) {
             snake.push([null, null]);
-            fruitX = Math.floor(Math.random() * (canvas.width - 2 * radius) + 2 * radius);
-            fruitY = Math.floor(Math.random() * (canvas.height - 2 * radius) + 2 * radius);
+            fruitX = Math.floor(Math.random() * (canvas.width - 4 * radius) + 4 * radius);
+            fruitY = Math.floor(Math.random() * (canvas.height - 4 * radius) + 4 * radius);
             score += 1
         }
 

@@ -22,6 +22,7 @@ let cooldown;
 let score;
 let dx;
 let stepdown;
+let endText;
 
 const shots = [];
 const shotHeight = 10;
@@ -115,6 +116,7 @@ function collisionDetection() {
                             shots.splice(index, 1);
                             score++;
                             if (score === invaderRowCount * invaderColumnCount) {
+                                endText = "YOU WON!";
                                 gameOver();
                                 return;
                             }
@@ -161,6 +163,7 @@ function drawInvaders() {
 
                 if ((invaderY + invaderHeight >= playerY && invaderX >= playerX && invaderX <= playerX + playerWidth) ||
                     invaderY + invaderHeight >= canvas.height) {
+                    endText = "GAME OVER";
                     gameOver();
                     return;
                 }
@@ -228,7 +231,7 @@ function gameOver() {
     ctx.font = "16px Arial";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 3);
+    ctx.fillText(endText, canvas.width / 2, canvas.height / 3);
     ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
 }
 
