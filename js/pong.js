@@ -43,22 +43,28 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e) {
     switch (e.keyCode) {
         case 38:
+            e.preventDefault();
             upPressed = true;
             break;
         case 40:
+            e.preventDefault();
             downPressed = true;
             break;
         case 87:
+            e.preventDefault();
             wPressed = true;
             break;
         case 83:
+            e.preventDefault();
             sPressed = true;
             break;
     }
     if (e.keyCode === 32 && started === false) {
+        e.preventDefault();
         startGame();
     }
     else if (e.keyCode === 27 && started === true) {
+        e.preventDefault();
         started = false;
     }
 }
@@ -79,6 +85,31 @@ function keyUpHandler(e) {
     }
 }
 
+function upButtonPressed() {
+    if (!started) startGame();
+    upPressed = true;
+    setTimeout(function () { upPressed = false }, 100);
+
+}
+
+function downButtonPressed() {
+    if (!started) startGame();
+    downPressed = true;
+    setTimeout(function () { downPressed = false }, 100);
+}
+
+function wButtonPressed() {
+    if (!started) startGame();
+    wPressed = true;
+    setTimeout(function () { wPressed = false }, 100);
+}
+
+function sButtonPressed() {
+    if (!started) startGame();
+    sPressed = true;
+    setTimeout(function () { sPressed = false }, 100);
+}
+
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -92,16 +123,18 @@ function drawPaddle() {
     ctx.fill();
     ctx.closePath();
 }
-function drawScore() {
-    ctx.font = "32px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(score1, canvas.width / 4, canvas.height / 3);
-    ctx.fillText(score2, 3 * canvas.width / 4, canvas.height / 3);
+function drawCenterLine() {
     ctx.beginPath();
     ctx.setLineDash([canvas.height / 10]);
     ctx.moveTo(canvas.width / 2, [canvas.height / 20]);
     ctx.lineTo(canvas.width / 2, canvas.height);
     ctx.stroke();
+}
+function drawScore() {
+    ctx.font = "32px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(score1, canvas.width / 4, canvas.height / 3);
+    ctx.fillText(score2, 3 * canvas.width / 4, canvas.height / 3);
 }
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -126,6 +159,7 @@ function draw() {
     else {
         drawBall();
         drawPaddle();
+        drawCenterLine();
 
         if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
 

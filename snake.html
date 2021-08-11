@@ -29,7 +29,6 @@
             <a href="./">GAME-JS</a>
         </div>
     </div>
-
     <canvas id="myCanvas" width="480" height="320"></canvas>
 
     <div class="container">
@@ -38,6 +37,14 @@
         <ul>
             <dt><i>ARROW KEYS</i> or <i>WASD</i> to move</dt>
         </ul>
+        <div class="game-controller">
+            <button class="game-buttons" onclick="upButtonPressed()">UP</button>
+            <br>
+            <button class="game-buttons" onclick="leftButtonPressed()">LEFT</button>
+            <button class="game-buttons" onclick="rightButtonPressed()">RIGHT</button>
+            <br>
+            <button class="game-buttons" onclick="downButtonPressed()">DOWN</button>
+        </div>
     </div>
 
     <script type="text/javascript" src="./js/snake.js"></script>
