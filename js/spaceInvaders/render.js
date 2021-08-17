@@ -6,15 +6,12 @@ const playerHeight = 10;
 const playerWidth = 20;
 let playerX;
 const playerY = canvas.height - playerHeight;
-let rightPressed = false;
-let leftPressed = false;
-let spacePressed = false;
 
 const invaderRowCount = 5;
 const invaderColumnCount = 3;
-const invaderWidth = 50;
+const invaderWidth = 30;
 const invaderHeight = 20;
-const invaderPadding = 10;
+const invaderPadding = 20;
 const invaderOffsetTop = 30;
 const invaderOffsetLeft = 30;
 
@@ -31,6 +28,9 @@ const shotWidth = 5;
 let started = false;
 
 const invaders = [];
+const invader = new Image();
+invader.src = './static/spaceInvader.svg';
+
 
 function startGame() {
     started = true;
@@ -49,81 +49,6 @@ function startGame() {
     }
 
     draw();
-}
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-
-function keyDownHandler(e) {
-    switch (e.keyCode) {
-        case 39:
-            e.preventDefault();
-            rightPressed = true;
-            break;
-        case 68:
-            e.preventDefault();
-            rightPressed = true;
-            break;
-        case 37:
-            e.preventDefault();
-            leftPressed = true;
-            break;
-        case 65:
-            e.preventDefault();
-            leftPressed = true;
-            break;
-        case 32:
-            if (cooldown <= 0) {
-                e.preventDefault();
-                spacePressed = true;
-                cooldown = 50;
-            }
-            break;
-    }
-    if (e.keyCode === 32 && started === false) {
-        e.preventDefault();
-        startGame();
-    }
-}
-function keyUpHandler(e) {
-    switch (e.keyCode) {
-        case 39:
-            rightPressed = false;
-            break;
-        case 68:
-            rightPressed = false;
-            break;
-        case 37:
-            leftPressed = false;
-            break;
-        case 65:
-            leftPressed = false;
-            break;
-        case 32:
-            spacePressed = false;
-            break;
-    }
-}
-
-function lButtonPressed() {
-    if (!started) startGame();
-    leftPressed = true;
-    setTimeout(function () { leftPressed = false }, 100);
-}
-
-function rButtonPressed() {
-    if (!started) startGame();
-    rightPressed = true;
-    setTimeout(function () { rightPressed = false }, 100);
-}
-
-function sButtonPressed() {
-    if (!started) startGame();
-    if (cooldown <= 0) {
-        spacePressed = true;
-        cooldown = 50;
-        setTimeout(function () { spacePressed = false }, 20);
-    }
 }
 
 function collisionDetection() {
@@ -172,6 +97,16 @@ function drawPlayer() {
     ctx.fill();
     ctx.closePath();
 }
+
+function loadImage(url) {
+    return new Promise(resolve => {
+        const image = new Image();
+        image.addEventListener('load', () => {
+            resolve(image);
+        });
+        image.src = url;
+    });
+}
 function drawInvaders() {
     if (invaders[0][0].x < invaderOffsetLeft || invaders[0][invaderRowCount - 1].x + invaderWidth >= canvas.width - invaderOffsetLeft) {
         dx = -dx;
@@ -196,7 +131,7 @@ function drawInvaders() {
                 }
 
                 ctx.beginPath();
-                ctx.rect(invaderX, invaderY, invaderWidth, invaderHeight);
+                ctx.drawImage(invader, invaderX, invaderY, invaderWidth, invaderHeight);
                 ctx.fillStyle = "white";
                 ctx.fill();
                 ctx.closePath();
@@ -211,6 +146,7 @@ function drawScore() {
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + score, 8, 20);
 }
+
 function draw() {
     if (started === false) {
         return;
