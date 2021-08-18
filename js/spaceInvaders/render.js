@@ -98,15 +98,6 @@ function drawPlayer() {
     ctx.closePath();
 }
 
-function loadImage(url) {
-    return new Promise(resolve => {
-        const image = new Image();
-        image.addEventListener('load', () => {
-            resolve(image);
-        });
-        image.src = url;
-    });
-}
 function drawInvaders() {
     if (invaders[0][0].x < invaderOffsetLeft || invaders[0][invaderRowCount - 1].x + invaderWidth >= canvas.width - invaderOffsetLeft) {
         dx = -dx;
