@@ -4,40 +4,56 @@ a {
 }
 
 body {
-    margin: 54px 0;
-    height: 100%;
+    margin: 55px auto auto auto;
     background: #e5e5e5;
-    font-family: Sans-Serif;
+    font-family: Consolas;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: rgb(221,221,221);
+    background: -moz-radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#dddddd",GradientType=1);
+}
+
+main {
+    margin: 16px 0 0 0;
+    background: white;
+    border-radius: 10px;
+    padding-bottom: 16px !important;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    
 }
 
 .container {
-    padding-right: 15px;
-    padding-left: 15px;
+    width: 100%;
+    padding: 2px 16px;
     margin-right: auto;
     margin-left: auto;
-    max-width: 100%;
 }
 @media (min-width: 768px) {
     .container {
-      width: 750px;
+        max-width: 750px;
     }
 }
 @media (min-width: 992px) {
     .container {
-      width: 970px;
+        max-width: 970px;
     }
 }
 @media (min-width: 1200px) {
     .container {
-      width: 1170px;
+        max-width: 1170px;
     }
 }
 
 canvas {
     background: #eee;
+    border: 1px solid Black;
     display: block;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 32px;
     width: 75vh;
     height: auto;
     max-width: 100%;
@@ -51,32 +67,27 @@ canvas {
     top: 0;
     width: 100%;
     padding: 10px 16px;
-    background-color: #333;
+    color: white;
+    background: #333;
     overflow: hidden;
-    -webkit-box-shadow: -8px 8px 6px -6px #333;
-    -moz-box-shadow: -8px 8px 6px -6px #333;
-    box-shadow: -8px 8px 6px -6px #333;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
   
 /* Style the links inside the navigation bar */
 .topnav a {
     float: left;
-    color: #f2f2f2;
     text-align: center;
     padding: 8px 16px;
     text-decoration: none;
     font-size: 16px;
 }
 
-
-
 .parallax {
     /* The image used */
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("parallax.jpg");
-  
 
     height: 33vh;
-  
+    width: 100%;
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
@@ -87,7 +98,7 @@ canvas {
 
 /* Place text in the middle of the image */
 .hero-text {
-    text-align: center;
+    text-align: left;
     position: absolute;
     top: 50%;
     left: 33%;
@@ -102,18 +113,13 @@ canvas {
     border-radius: 5px; /* 5px rounded corners */
     margin: 32px;
     text-decoration: none;
+    background-color: white;
 }
 
   /* On mouse-over, add a deeper shadow */
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-  
-  /* Add some padding inside the card container */
-.container {
-    padding: 2px 16px;
-}
-
   
   /* Add rounded corners to the top left and the top right corner of the image */
 .card-img {
@@ -128,6 +134,22 @@ canvas {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+#control-collapse {
+    margin:0;
+    padding:0;
+    text-decoration: none;
+    font-size: 1.17em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#collapsible {
+    margin:0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
 .game-controller {
     text-align: center;
 }
@@ -135,4 +157,8 @@ canvas {
     font-family: consolas;
     padding: 16px 32px;
     margin: 4px 2px 0px 2px;
+}
+
+footer {
+    text-align: center;
 }

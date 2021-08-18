@@ -26,25 +26,48 @@
 
     <div class="topnav">
         <div class="container">
-            <a href="./">GAME-JS</a>
+            <a href="./">GAMES-JS</a>
         </div>
     </div>
 
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <main class="container">
 
-    <div class="container">
-        <br>
-        <h3>Controls:</h3>
-        <ul>
-            <dt><i>ARROW KEYS</i> or <i>AD</i> to move</dt>
-            <dt><i>SPACEBAR</i> to shoot</dt>
-        </ul>
-        <div class="game-controller">
-            <button class="game-buttons" onclick="lButtonPressed()">LEFT</button>
-            <button class="game-buttons" onclick="sButtonPressed()">SHOOT</button>
-            <button class="game-buttons" onclick="rButtonPressed()">RIGHT</button>
+        <canvas id="myCanvas" width="480" height="320"></canvas>
+
+        <div class="container">
+            <br>
+            <a id="control-collapse">> Controls</a>
+
+            <div id="collapsible">
+                <ul>
+                    <dt><i>ARROW KEYS</i> or <i>AD</i> to move</dt>
+                    <dt><i>SPACEBAR</i> to shoot</dt>
+                </ul>
+            </div>
+
+            <div class="game-controller">
+                <button class="game-buttons" onclick="lButtonPressed()">LEFT</button>
+                <button class="game-buttons" onclick="sButtonPressed()">SHOOT</button>
+                <button class="game-buttons" onclick="rButtonPressed()">RIGHT</button>
+            </div>
         </div>
-    </div>
+
+    </main>
+
+    <script>
+        const controlButton = document.getElementById('control-collapse');
+        const controlDiv = document.getElementById('collapsible');
+        controlButton.addEventListener("click", function () {
+            this.classList.toggle("active");
+            if (controlDiv.style.maxHeight) {
+                controlDiv.style.maxHeight = null;
+                controlButton.innerHTML = "> Controls";
+            } else {
+                controlDiv.style.maxHeight = controlDiv.scrollHeight + "px";
+                controlButton.innerHTML = "v Controls";
+            }
+        });
+    </script>
 
     <script type="text/javascript" src="./js/spaceInvaders/input.js"></script>
     <script type="text/javascript" src="./js/spaceInvaders/render.js"></script>

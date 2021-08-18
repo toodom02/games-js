@@ -1,4 +1,5 @@
 const canvas = document.getElementById("myCanvas");
+canvas.style.backgroundColor = "white";
 const ctx = canvas.getContext("2d");
 
 const width = 10;
