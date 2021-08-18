@@ -29,7 +29,7 @@ let started = false;
 
 const invaders = [];
 const invader = new Image();
-invader.src = './static/spaceInvader.svg';
+invader.src = './static/assets/spaceInvader.svg';
 
 
 function startGame() {
