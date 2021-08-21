@@ -30,11 +30,13 @@ function startGame() {
     y = canvas.height / 2;
     dx = 2;
     dy = -2;
+    startCapturingInput();
     draw();
 }
 
 function endGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stopCapturingInput();
     drawScore();
     started = false;
     if (score1 > score2) {

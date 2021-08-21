@@ -3,9 +3,10 @@ const flagButton = document.getElementById('flag-button');
 let flag = false;
 
 function keyDownHandler(e) {
-    if (e.keyCode === 32 && started === false) {
+    if (e.keyCode === 32) {
         e.preventDefault();
-        startGame();
+        if (!started) startGame();
+        else flagClicked();
     }
 }
 
@@ -22,16 +23,35 @@ function mouseClick(e) {
     }
 }
 
+function mineSquare(x, y) {
+    grid[x][y] = 1;
+    if (hasMine(x, y)) gameOver();
+    else if (neighbours[x][y] == 0) clearZeros(x, y);
+}
+
+function mineSurroundingSquares(x, y) {
+    // clears all surrounding squares
+    for (let i = - 1; i < 2; i++) {
+        for (let j = - 1; j < 2; j++) {
+            if (!(j == 0 && i == 0) && x + i < cols && x + i >= 0
+                && y + j < rows && y + j >= 0) {
+                if (grid[x + i][y + j] == 0) mineSquare(x + i, y + j);
+            }
+        }
+    }
+}
+
 function handleMineInput(x, y) {
     if (x < canvas.width && y < canvas.height) {
         const xsq = Math.floor(x / res);
         const ysq = Math.floor(y / res);
         if (grid[xsq][ysq] == 0) {
-            grid[xsq][ysq] = 1;
-            if (hasMine(xsq, ysq)) gameOver();
-            else if (neighbours[xsq][ysq] == 0) clearZeros(xsq, ysq);
-            draw();
+            mineSquare(xsq, ysq);
         }
+        else if (grid[xsq][ysq] == 1) {
+            mineSurroundingSquares(xsq, ysq);
+        }
+        draw();
     }
 }
 

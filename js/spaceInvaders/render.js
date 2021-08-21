@@ -47,7 +47,7 @@ function startGame() {
             invaders[c][r] = { x: (r * (invaderWidth + invaderPadding)) + invaderOffsetLeft, y: (c * (invaderHeight + invaderPadding)) + invaderOffsetTop, status: 1 };
         }
     }
-
+    startCapturingInput();
     draw();
 }
 
@@ -178,6 +178,7 @@ function menu() {
 }
 
 function gameOver() {
+    stopCapturingInput();
     started = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawScore();

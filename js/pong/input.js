@@ -6,6 +6,44 @@ let sPressed = false;
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+function startCapturingInput() {
+    window.addEventListener('mousemove', onMouseInput);
+    window.addEventListener('click', onMouseInput);
+    window.addEventListener('touchstart', onTouchInput);
+    window.addEventListener('touchmove', onTouchInput);
+}
+
+function stopCapturingInput() {
+    window.removeEventListener('mousemove', onMouseInput);
+    window.removeEventListener('click', onMouseInput);
+    window.removeEventListener('touchstart', onTouchInput);
+    window.removeEventListener('touchmove', onTouchInput);
+}
+
+function onMouseInput(e) {
+    userInput(e.clientX, e.clientY);
+}
+
+function onTouchInput(e) {
+    for (let i = 0; i < e.touches.length; i++) {
+        userInput(e.touches[i].clientX, e.touches[i].clientY);
+    }
+}
+
+function userInput(x, y) {
+    const rect = canvas.getBoundingClientRect(), // abs. size of element
+        scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for X
+        scaleY = canvas.height / rect.height,  // relationship bitmap vs. element for Y
+        canvasX = (x - rect.left) * scaleX, // scale mouse coordinates after 
+        canvasY = (y - rect.top) * scaleY; // they have been adjusted to be relative to element
+
+    if (canvasX >= 0 && canvasX <= canvas.width &&
+        canvasY >= 0 && canvasY <= canvas.height) {
+        if (canvasX > canvas.width / 2) paddleY = canvasY - paddleHeight / 2;
+        else paddle2Y = canvasY - paddleHeight / 2;
+    }
+}
+
 function keyDownHandler(e) {
     switch (e.keyCode) {
         case 38:

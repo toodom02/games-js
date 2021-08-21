@@ -2,6 +2,11 @@ const canvas = document.getElementById("myCanvas");
 canvas.style.backgroundColor = "white";
 const ctx = canvas.getContext("2d");
 
+if (screen.availHeight > screen.availWidth) {
+    canvas.width = 320;
+    canvas.height = 480;
+}
+
 const res = 20
 const cols = Math.floor(canvas.width / res)
 const rows = Math.floor(canvas.height / res)
@@ -37,6 +42,17 @@ function gameOver() {
     document.removeEventListener("click", mouseClick);
     grid = makeArray(cols, rows, 1);
     draw();
+}
+
+function gameWon() {
+    started = false;
+    flagButton.innerHTML = "RESTART";
+    document.removeEventListener("click", mouseClick);
+    ctx.font = "16px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "DarkRed";
+    ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 3);
+    ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
 }
 
 function makeArray(cols, rows, value = 0) {
@@ -126,6 +142,11 @@ function getColour(num) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    if (hasWon()) {
+        gameWon();
+        return;
+    }
+
     for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
             let x = i * res;
@@ -152,13 +173,6 @@ function draw() {
             } else {
                 ctx.fillStyle = "DarkGrey";
                 ctx.fillRect(x, y, res - 1, res - 1);
-            }
-            if (hasWon()) {
-                ctx.font = "16px Arial";
-                ctx.textAlign = "center";
-                ctx.fillStyle = "DarkRed";
-                ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 3);
-                ctx.fillText("Press SPACEBAR to restart", canvas.width / 2, 2 * canvas.height / 3);
             }
         }
     }
