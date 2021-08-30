@@ -1,18 +1,20 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 const res = canvas.width / 8;
-let board;
+let board = [];
 let fenString;
 let whiteToMove;
+let isInCheck = false;
+let started = false;
 
 const pieceImg = new Image();
 pieceImg.src = "./static/assets/ChessPieces.png";
 
 class Piece {
-    constructor(type, colour) {
+    constructor(type, colour, first = true) {
         this.type = type;
         this.colour = colour;
-        this.first = true;
+        this.first = first;
         this.sWidth = 2000 / 6;
         this.sHeight = 334;
         this.sy = (this.colour === "white") ? 0 : 334;
@@ -41,6 +43,7 @@ class Piece {
 }
 
 function startGame() {
+    started = true;
     fenString = startingFen;
     board = makeBoard();
     startCapturingInput();
@@ -50,12 +53,15 @@ function startGame() {
 
 function gameOver() {
     const winner = whiteToMove ? "BLACK" : "WHITE";
+    started = false
     stopCapturingInput();
     ctx.font = "bold 116px Arial";
     ctx.textAlign = "center";
     ctx.fillStyle = "DarkSlateGray";
-    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
-    ctx.fillText(winner + " WINS", canvas.width / 2, 5 * canvas.height / 8);
+    ctx.fillText("CHECKMATE", canvas.width / 2, 7 * canvas.height / 16);
+    ctx.fillText(winner + " WINS", canvas.width / 2, 9 * canvas.height / 16);
+    startButton.hidden = false;
+    startButton.addEventListener('click', buttonClicked);
 }
 
 function makeBoard() {
@@ -72,7 +78,7 @@ function drawBoard() {
             let pos = j * 8 + i;
             let square = board[pos];
             if (pos == selectedSquare) ctx.fillStyle = "DarkOrange";
-            else if (possibleMove(pos)) ctx.fillStyle = count % 2 == 0 ? "Salmon" : "FireBrick";
+            else if (selectableMove(pos)) ctx.fillStyle = count % 2 == 0 ? "Salmon" : "FireBrick";
             else ctx.fillStyle = count % 2 == 0 ? "Tan" : "SaddleBrown";
             ctx.fillRect(x, y, res, res);
             if (square) {
@@ -82,17 +88,41 @@ function drawBoard() {
         }
         count++;
     }
-
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
+
+    if (!started) {
+        ctx.font = "bold 100px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "DarkSlateGray";
+        ctx.fillText("CHESS.JS", canvas.width / 2, 7 * canvas.height / 16);
+        ctx.font = "bold 55px Arial";
+        ctx.fillText("CLICK BUTTON TO START", canvas.width / 2, 11 * canvas.height / 16);
+    }
+
+    else if (isInCheck) {
+        ctx.font = "bold 116px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "DarkSlateGray";
+        ctx.fillText("CHECK", canvas.width / 2, canvas.height / 2);
+    }
+
+    else if (pawnPromotion != null) {
+        ctx.font = "bold 60px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "DarkSlateGray";
+        ctx.fillText("Select a promotion below", canvas.width / 2, 11 * canvas.height / 16);
+        startCapturePawnPromotion();
+    }
 }
 
-
-calculateDistanceFromEdge()
+draw();
+calculateDistanceFromEdge();
 pieceImg.onload = function () {
-    startGame();
+    startButton.addEventListener("click", buttonClicked);
 };
 

@@ -1,3 +1,9 @@
+const startButton = document.getElementById('start-button');
+const queenButton = document.getElementById('queen-button');
+const rookButton = document.getElementById('rook-button');
+const bishopButton = document.getElementById('bishop-button');
+const knightButton = document.getElementById('knight-button');
+
 
 function getCoords(x, y) {
     const rect = canvas.getBoundingClientRect(), // abs. size of element
@@ -14,9 +20,60 @@ function onClick(e) {
         const xsq = Math.floor(x / res);
         const ysq = Math.floor(y / res);
         const index = ysq * 8 + xsq;
-        if (selectedSquare && possibleMove(index)) makeMove(selectedSquare, index);
+        if (selectedSquare != null && selectableMove(index)) makeMove(selectedSquare, index);
         else selectSquare(index);
     }
+}
+
+function buttonClicked() {
+    if (!started) {
+        startGame();
+        startButton.hidden = true;
+        startButton.removeEventListener('click', buttonClicked);
+    }
+}
+
+function queenClicked() {
+    board[pawnPromotion] = new Piece("queen", board[pawnPromotion].colour, false);
+    stopCapturingPawnPromotion();
+}
+function rookClicked() {
+    board[pawnPromotion] = new Piece("rook", board[pawnPromotion].colour, false);
+    stopCapturingPawnPromotion();
+}
+function bishopClicked() {
+    board[pawnPromotion] = new Piece("bishop", board[pawnPromotion].colour, false);
+    stopCapturingPawnPromotion();
+}
+function knightClicked() {
+    board[pawnPromotion] = new Piece("knight", board[pawnPromotion].colour, false);
+    stopCapturingPawnPromotion();
+}
+
+function startCapturePawnPromotion() {
+    stopCapturingInput();
+    queenButton.hidden = false;
+    rookButton.hidden = false;
+    bishopButton.hidden = false;
+    knightButton.hidden = false;
+    queenButton.addEventListener('click', queenClicked);
+    rookButton.addEventListener('click', rookClicked);
+    bishopButton.addEventListener('click', bishopClicked);
+    knightButton.addEventListener('click', knightClicked);
+}
+
+function stopCapturingPawnPromotion() {
+    pawnPromotion = null;
+    queenButton.hidden = true;
+    rookButton.hidden = true;
+    bishopButton.hidden = true;
+    knightButton.hidden = true;
+    queenButton.removeEventListener('click', queenClicked);
+    rookButton.removeEventListener('click', rookClicked);
+    bishopButton.removeEventListener('click', bishopClicked);
+    knightButton.removeEventListener('click', knightClicked);
+    startCapturingInput();
+    draw();
 }
 
 function startCapturingInput() {

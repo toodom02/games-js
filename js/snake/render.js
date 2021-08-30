@@ -56,7 +56,7 @@ function draw() {
         return;
     }
     else {
-        // end game is collides with self
+        // end game if collides with self
         for (part of snake.slice(1)) {
             if (part[0] === snake[0][0] && part[1] === snake[0][1]) {
                 gameOver();
@@ -74,7 +74,7 @@ function draw() {
 
         // checks if apple touched
         if (Math.abs(snakeCentre[0] - fruitX) <= width / 2 + radius && Math.abs(snakeCentre[1] - fruitY) <= height / 2 + radius) {
-            snake.push([null, null]);
+            snake.push([-width, -height]); // spawn square off canvas to stop flicker
             fruitX = Math.floor(Math.random() * (canvas.width - 4 * radius) + 4 * radius);
             fruitY = Math.floor(Math.random() * (canvas.height - 4 * radius) + 4 * radius);
             score += 1
