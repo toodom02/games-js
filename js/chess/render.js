@@ -8,16 +8,16 @@ let isInCheck = false;
 let started = false;
 
 const pieceImg = new Image();
-pieceImg.src = "./static/assets/ChessPieces.png";
+pieceImg.src = "./static/assets/chessPieces.svg";
 
 class Piece {
     constructor(type, colour, first = true) {
         this.type = type;
         this.colour = colour;
         this.first = first;
-        this.sWidth = 2000 / 6;
-        this.sHeight = 334;
-        this.sy = (this.colour === "white") ? 0 : 334;
+        this.sWidth = pieceImg.width / 6;
+        this.sHeight = pieceImg.height / 2;
+        this.sy = (this.colour === "white") ? 0 : this.sHeight;
 
         switch (this.type) {
             case "king":
@@ -53,13 +53,15 @@ function startGame() {
 
 function gameOver() {
     const winner = whiteToMove ? "BLACK" : "WHITE";
-    started = false
+    isInCheck = false;
     stopCapturingInput();
+    draw();
     ctx.font = "bold 116px Arial";
     ctx.textAlign = "center";
     ctx.fillStyle = "DarkSlateGray";
     ctx.fillText("CHECKMATE", canvas.width / 2, 7 * canvas.height / 16);
     ctx.fillText(winner + " WINS", canvas.width / 2, 9 * canvas.height / 16);
+    started = false;
     startButton.hidden = false;
     startButton.addEventListener('click', buttonClicked);
 }

@@ -47,6 +47,10 @@ main {
     }
 }
 
+#home {
+    width: 100%;
+}
+
 canvas {
     background: #eee;
     border: 1px solid Black;
