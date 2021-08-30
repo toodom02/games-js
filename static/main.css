@@ -49,6 +49,7 @@ main {
 
 #home {
     width: 100%;
+    padding: 0;
 }
 
 canvas {

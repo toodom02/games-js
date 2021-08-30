@@ -20,6 +20,7 @@ const playerHeight = 22;
 let bullet = [];
 const bulletRad = 2;
 let asteroid = [];
+let accel;
 
 const shipImg = new Image();
 shipImg.src = './static/assets/ship.svg';
@@ -33,6 +34,7 @@ function startGame() {
     score = 0;
     cooldown = 0;
     bullet = []; asteroid = [];
+    accel = 0;
     angle = Math.PI / 2; // start vertically up
     playerX = (canvas.width - playerWidth) / 2;
     playerY = (canvas.height - playerHeight) / 2;
@@ -179,23 +181,24 @@ function draw() {
 
     if (aPressed) angle += Math.PI / 32;
     else if (dPressed) angle -= Math.PI / 64;
-    let forwardX = (Math.PI / 2) * Math.cos(angle);
-    let forwardY = (Math.PI / 2) * Math.sin(angle);
-    let backwardX = -(Math.PI / 3) * Math.cos(angle);
-    let backwardY = -(Math.PI / 3) * Math.sin(angle);
+    let forwardX = wPressed ? (accel / 10 + Math.PI / 2) * Math.cos(angle) : accel / 4 * Math.cos(angle);
+    let forwardY = wPressed ? (accel / 10 + Math.PI / 2) * Math.sin(angle) : accel / 4 * Math.sin(angle);
+    let backwardX = sPressed ? (accel / 10 - (Math.PI / 3)) * Math.cos(angle) : accel / 4 * Math.cos(angle);
+    let backwardY = sPressed ? (accel / 10 - (Math.PI / 3)) * Math.sin(angle) : accel / 4 * Math.sin(angle);
 
-    if (wPressed && checkBoundary(forwardX, forwardY)) {
+    if ((wPressed || accel > 0) && checkBoundary(forwardX, forwardY)) {
         playerX += forwardX;
         playerY -= forwardY;
+        if (wPressed && accel < 10) accel++;
     }
-    else if (sPressed && checkBoundary(backwardX, backwardY)) {
+    else if ((sPressed || accel < 0) && checkBoundary(backwardX, backwardY)) {
         playerX += backwardX;
         playerY -= backwardY;
+        if (sPressed && accel > -5) accel--;
     }
 
-    if (collisionDetection()) {
-        console.log("Hit asteroid!");
-    }
+    if (!wPressed && accel > 0) accel--
+    else if (!sPressed && accel < 0) accel++;
 
     if (spacePressed) {
         bullet.push({

@@ -1,10 +1,9 @@
 
 <h1 align="center">
-    <img src="static/logo.svg" alt="Logo" width="50"> <br />
+    <img src="static/logo.svg" alt="Logo" width="100"> <br />
     GAMES-JS
 </h1>
 
-## About
 
 GAMES-JS is a small collection of classic single-player and two-player games, built from the ground up in pure HTML, CSS, and JavaScript.
 
